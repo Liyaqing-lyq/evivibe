@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "evivibe"
+version = "0.1.0"
+description = "Evidence-bound multi-dimensional evaluation framework for vibe-coding software artifacts"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "EviVibe Contributors" }]
+requires-python = ">=3.9"
+keywords = [
+    "vibe-coding", "llm", "evaluation", "benchmark", "software-quality",
+    "code-generation", "hci",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Quality Assurance",
+]
+dependencies = []  # core is stdlib-only by design
+
+[project.optional-dependencies]
+browser = ["playwright>=1.40"]
+dev = ["pytest>=7"]
+
+[project.scripts]
+evivibe = "evivibe.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/yourname/evivibe"
+
+[tool.setuptools.packages.find]
+include = ["evivibe*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--basetemp=.pytest_tmp"

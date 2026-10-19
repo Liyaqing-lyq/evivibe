@@ -1,0 +1,21 @@
+{
+  "work_id": "demo-todo",
+  "title": "Campus Todo — personal task manager",
+  "author": "student-07 (anonymized)",
+  "ai_tools": ["chat-model-a"],
+  "requirement": "A personal todo web app for campus use: add, edit, search and delete entries; data must persist across reloads; handle empty input, duplicate submissions and special characters gracefully; usable on mobile screens.",
+  "expert_labels": {
+    "overall": 78,
+    "dimensions": {
+      "functionality": 85,
+      "ux": 78,
+      "visual": 80,
+      "reliability": 65,
+      "security": 82,
+      "maintainability": 75,
+      "innovation": 60,
+      "collaboration": 80
+    },
+    "severe_defects": ["duplicate-submit creates duplicated entries"]
+  }
+}

@@ -1,0 +1,30 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Tooling
+.pytest_cache/
+.pytest_tmp/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# Evaluation outputs
+evivibe-output/
+shots/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,99 @@
+[
+  {
+    "task_id": "T1-create",
+    "name": "create a todo entry",
+    "category": "core",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "fill", "target": "#todo-input", "value": "Buy milk"},
+      {"action": "click", "target": "button#add"},
+      {"action": "expect", "value": "Buy milk"}
+    ]
+  },
+  {
+    "task_id": "T2-edit",
+    "name": "edit an existing entry",
+    "category": "core",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "click", "target": ".todo-item:first-child .edit"},
+      {"action": "fill", "target": "#todo-input", "value": "Buy oat milk"},
+      {"action": "click", "target": "button#save"},
+      {"action": "expect", "value": "Buy oat milk"}
+    ]
+  },
+  {
+    "task_id": "T3-search",
+    "name": "search entries",
+    "category": "core",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "fill", "target": "#search", "value": "milk"},
+      {"action": "expect", "value": "Buy oat milk"}
+    ]
+  },
+  {
+    "task_id": "T4-delete",
+    "name": "delete an entry",
+    "category": "core",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "click", "target": ".todo-item:first-child .delete"},
+      {"action": "expect_absent", "value": "Buy oat milk"}
+    ]
+  },
+  {
+    "task_id": "T5-persistence",
+    "name": "data persists across reload",
+    "category": "persistence",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "fill", "target": "#todo-input", "value": "Persist me"},
+      {"action": "click", "target": "button#add"},
+      {"action": "reload"},
+      {"action": "expect", "value": "Persist me"}
+    ]
+  },
+  {
+    "task_id": "T6-empty-input",
+    "name": "submitting an empty entry is rejected",
+    "category": "robustness",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "click", "target": "button#add"},
+      {"action": "expect_absent", "value": "Empty"}
+    ]
+  },
+  {
+    "task_id": "T7-duplicate-submit",
+    "name": "double-clicking add does not create duplicates",
+    "category": "robustness",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "fill", "target": "#todo-input", "value": "Only one"},
+      {"action": "click", "target": "button#add"},
+      {"action": "click", "target": "button#add"}
+    ]
+  },
+  {
+    "task_id": "T8-illegal-chars",
+    "name": "entry with special characters is stored safely",
+    "category": "robustness",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "fill", "target": "#todo-input", "value": "<script>alert(1)</script>"},
+      {"action": "click", "target": "button#add"},
+      {"action": "expect", "value": "<script>alert(1)</script>"}
+    ]
+  },
+  {
+    "task_id": "T9-mobile-viewport",
+    "name": "layout remains usable at mobile width",
+    "category": "extension",
+    "steps": [
+      {"action": "goto", "target": "/"},
+      {"action": "screenshot", "value": "home-mobile"},
+      {"action": "expect", "value": "Todo"}
+    ]
+  }
+]

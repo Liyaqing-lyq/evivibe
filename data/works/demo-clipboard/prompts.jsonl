@@ -1,0 +1,3 @@
+{"turn": 1, "role": "user", "text": "做一个便签板网页，能粘贴笔记、看历史、删除笔记，还要有搜索框。"}
+{"turn": 2, "role": "assistant", "text": "好的，我来实现。"}
+{"turn": 3, "role": "user", "text": "可以了，就这样吧。"}

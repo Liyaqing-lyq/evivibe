@@ -1,0 +1,21 @@
+{
+  "work_id": "demo-clipboard",
+  "title": "Clipboard Quotes — quick notes board",
+  "author": "student-12 (anonymized)",
+  "ai_tools": ["chat-model-b"],
+  "requirement": "A quick notes board: paste a note, keep a history list, delete notes, and a search box. Should work after reload.",
+  "expert_labels": {
+    "overall": 34,
+    "dimensions": {
+      "functionality": 40,
+      "ux": 45,
+      "visual": 55,
+      "reliability": 30,
+      "security": 25,
+      "maintainability": 35,
+      "innovation": 40,
+      "collaboration": 30
+    },
+    "severe_defects": ["eval() on user-supplied filter expression", "notes lost after reload", "no requirements file"]
+  }
+}

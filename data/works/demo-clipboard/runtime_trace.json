@@ -1,0 +1,139 @@
+{
+  "boot": {
+    "ok": true,
+    "log": "flask app started on :5001 (no dependency manifest committed)"
+  },
+  "tasks": [
+    {
+      "task_id": "T1-create",
+      "name": "create a todo entry",
+      "category": "core",
+      "success": true,
+      "duration_ms": 900,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 400},
+        {"action": "fill", "target": "#todo-input", "value": "Buy milk", "ok": true, "elapsed_ms": 60},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 120},
+        {"action": "expect", "value": "Buy milk", "ok": true, "elapsed_ms": 320}
+      ]
+    },
+    {
+      "task_id": "T2-edit",
+      "name": "edit an existing entry",
+      "category": "core",
+      "success": false,
+      "duration_ms": 1100,
+      "failure_reason": "edit action not implemented (button missing)",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 380},
+        {"action": "click", "target": ".todo-item:first-child .edit", "ok": false, "elapsed_ms": 8000, "note": "element not found"}
+      ]
+    },
+    {
+      "task_id": "T3-search",
+      "name": "search entries",
+      "category": "core",
+      "success": true,
+      "duration_ms": 800,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 350},
+        {"action": "fill", "target": "#search", "value": "milk", "ok": true, "elapsed_ms": 55},
+        {"action": "expect", "value": "Buy milk", "ok": true, "elapsed_ms": 395}
+      ]
+    },
+    {
+      "task_id": "T4-delete",
+      "name": "delete an entry",
+      "category": "core",
+      "success": true,
+      "duration_ms": 760,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 340},
+        {"action": "click", "target": ".todo-item:first-child .delete", "ok": true, "elapsed_ms": 110},
+        {"action": "expect_absent", "value": "Buy oat milk", "ok": true, "elapsed_ms": 310}
+      ]
+    },
+    {
+      "task_id": "T5-persistence",
+      "name": "data persists across reload",
+      "category": "persistence",
+      "success": false,
+      "duration_ms": 1200,
+      "failure_reason": "notes stored in memory only; all entries lost after reload",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 360},
+        {"action": "fill", "target": "#todo-input", "value": "Persist me", "ok": true, "elapsed_ms": 58},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 118},
+        {"action": "reload", "ok": true, "elapsed_ms": 330},
+        {"action": "expect", "value": "Persist me", "ok": false, "elapsed_ms": 8000, "note": "text not found after reload"}
+      ]
+    },
+    {
+      "task_id": "T6-empty-input",
+      "name": "submitting an empty entry is rejected",
+      "category": "robustness",
+      "success": false,
+      "duration_ms": 700,
+      "failure_reason": "empty note accepted, blank card rendered",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 330},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 105},
+        {"action": "expect_absent", "value": "Empty", "ok": false, "elapsed_ms": 265, "note": "blank card created"}
+      ]
+    },
+    {
+      "task_id": "T7-duplicate-submit",
+      "name": "double-clicking add does not create duplicates",
+      "category": "robustness",
+      "success": false,
+      "duration_ms": 800,
+      "failure_reason": "no submit guard, duplicates created",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 340},
+        {"action": "fill", "target": "#todo-input", "value": "Only one", "ok": true, "elapsed_ms": 52},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 101},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 108, "note": "duplicate entry created"}
+      ]
+    },
+    {
+      "task_id": "T8-illegal-chars",
+      "name": "entry with special characters is stored safely",
+      "category": "robustness",
+      "success": false,
+      "duration_ms": 2100,
+      "failure_reason": "filter= parameter passed to eval(); injected expression executed",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 355},
+        {"action": "fill", "target": "#todo-input", "value": "<script>alert(1)</script>", "ok": true, "elapsed_ms": 60},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 120},
+        {"action": "expect", "value": "<script>alert(1)</script>", "ok": false, "elapsed_ms": 8000, "note": "server error 500: eval injection"}
+      ]
+    },
+    {
+      "task_id": "T9-mobile-viewport",
+      "name": "layout remains usable at mobile width",
+      "category": "extension",
+      "success": true,
+      "duration_ms": 900,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 370},
+        {"action": "screenshot", "value": "home-mobile", "ok": true, "elapsed_ms": 290},
+        {"action": "expect", "value": "Todo", "ok": true, "elapsed_ms": 240}
+      ]
+    }
+  ],
+  "screenshots": [
+    {"label": "home-desktop", "viewport": "1280x800", "path": "shots/home-desktop.png"}
+  ],
+  "dom": [
+    {"summary": "home page, horizontal overflow at 375px, 2 images missing alt", "overflow": true, "missing_alt": 2, "empty_links": 1}
+  ],
+  "logs": [
+    {"source": "app", "message": "GET /api/notes?filter=... executed user-supplied expression"},
+    {"source": "app", "message": "notes stored in process memory (no database)"}
+  ]
+}

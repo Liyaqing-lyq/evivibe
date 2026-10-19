@@ -1,0 +1,7 @@
+# Core: zero dependencies (Python standard library only).
+# Optional extras (see pyproject.toml):
+#   browser: playwright>=1.40      # live standard-task execution
+#   dev:     pytest>=7             # test suite
+#
+# Install everything for development:
+#   pip install -e ".[dev]"

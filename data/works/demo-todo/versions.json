@@ -1,0 +1,9 @@
+{
+  "versions": [
+    {"version": 1, "label": "initial CRUD scaffold", "human_edited": false, "files_changed": 3},
+    {"version": 2, "label": "ajax single-page interaction", "human_edited": false, "files_changed": 2},
+    {"version": 3, "label": "fuzzy search + sqlite locking fix", "human_edited": false, "files_changed": 2},
+    {"version": 4, "label": "css spacing hand-tweak", "human_edited": true, "files_changed": 1},
+    {"version": 5, "label": "empty-input validation + docs", "human_edited": true, "files_changed": 3}
+  ]
+}

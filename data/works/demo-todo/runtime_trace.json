@@ -1,0 +1,144 @@
+{
+  "boot": {
+    "ok": true,
+    "log": "flask app started on :5000, db initialized, smoke request 200 in 212ms"
+  },
+  "tasks": [
+    {
+      "task_id": "T1-create",
+      "name": "create a todo entry",
+      "category": "core",
+      "success": true,
+      "duration_ms": 1840,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 620},
+        {"action": "fill", "target": "#todo-input", "value": "Buy milk", "ok": true, "elapsed_ms": 90},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 310},
+        {"action": "expect", "value": "Buy milk", "ok": true, "elapsed_ms": 820}
+      ]
+    },
+    {
+      "task_id": "T2-edit",
+      "name": "edit an existing entry",
+      "category": "core",
+      "success": true,
+      "duration_ms": 2010,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 540},
+        {"action": "click", "target": ".todo-item:first-child .edit", "ok": true, "elapsed_ms": 280},
+        {"action": "fill", "target": "#todo-input", "value": "Buy oat milk", "ok": true, "elapsed_ms": 85},
+        {"action": "click", "target": "button#save", "ok": true, "elapsed_ms": 330},
+        {"action": "expect", "value": "Buy oat milk", "ok": true, "elapsed_ms": 775}
+      ]
+    },
+    {
+      "task_id": "T3-search",
+      "name": "search entries",
+      "category": "core",
+      "success": true,
+      "duration_ms": 1320,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 500},
+        {"action": "fill", "target": "#search", "value": "milk", "ok": true, "elapsed_ms": 78},
+        {"action": "expect", "value": "Buy oat milk", "ok": true, "elapsed_ms": 742}
+      ]
+    },
+    {
+      "task_id": "T4-delete",
+      "name": "delete an entry",
+      "category": "core",
+      "success": true,
+      "duration_ms": 1450,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 512},
+        {"action": "click", "target": ".todo-item:first-child .delete", "ok": true, "elapsed_ms": 260},
+        {"action": "expect_absent", "value": "Buy oat milk", "ok": true, "elapsed_ms": 678}
+      ]
+    },
+    {
+      "task_id": "T5-persistence",
+      "name": "data persists across reload",
+      "category": "persistence",
+      "success": true,
+      "duration_ms": 2210,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 498},
+        {"action": "fill", "target": "#todo-input", "value": "Persist me", "ok": true, "elapsed_ms": 88},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 305},
+        {"action": "reload", "ok": true, "elapsed_ms": 505},
+        {"action": "expect", "value": "Persist me", "ok": true, "elapsed_ms": 814}
+      ]
+    },
+    {
+      "task_id": "T6-empty-input",
+      "name": "submitting an empty entry is rejected",
+      "category": "robustness",
+      "success": true,
+      "duration_ms": 1180,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 470},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 240},
+        {"action": "expect_absent", "value": "Empty", "ok": true, "elapsed_ms": 470}
+      ]
+    },
+    {
+      "task_id": "T7-duplicate-submit",
+      "name": "double-clicking add does not create duplicates",
+      "category": "robustness",
+      "success": false,
+      "duration_ms": 1690,
+      "failure_reason": "double click created two identical entries (no submit guard)",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 485},
+        {"action": "fill", "target": "#todo-input", "value": "Only one", "ok": true, "elapsed_ms": 82},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 290},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 305, "note": "second entry created: duplicate"}
+      ]
+    },
+    {
+      "task_id": "T8-illegal-chars",
+      "name": "entry with special characters is stored safely",
+      "category": "robustness",
+      "success": true,
+      "duration_ms": 1520,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 502},
+        {"action": "fill", "target": "#todo-input", "value": "<script>alert(1)</script>", "ok": true, "elapsed_ms": 91},
+        {"action": "click", "target": "button#add", "ok": true, "elapsed_ms": 311},
+        {"action": "expect", "value": "<script>alert(1)</script>", "ok": true, "elapsed_ms": 616}
+      ]
+    },
+    {
+      "task_id": "T9-mobile-viewport",
+      "name": "layout remains usable at mobile width",
+      "category": "extension",
+      "success": true,
+      "duration_ms": 1290,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 530},
+        {"action": "screenshot", "value": "home-mobile", "ok": true, "elapsed_ms": 420},
+        {"action": "expect", "value": "Todo", "ok": true, "elapsed_ms": 340}
+      ]
+    }
+  ],
+  "screenshots": [
+    {"label": "home-desktop", "viewport": "1280x800", "path": "shots/home-desktop.png"},
+    {"label": "home-mobile", "viewport": "mobile", "path": "shots/home-mobile.png"}
+  ],
+  "dom": [
+    {"summary": "home page, 0 layout overflow, all images have alt", "overflow": false, "missing_alt": 0, "empty_links": 0}
+  ],
+  "logs": [
+    {"source": "app", "message": "sqlite database initialized (todos.db)"},
+    {"source": "app", "message": "POST /api/todos 400 empty title rejected"},
+    {"source": "app", "message": "POST /api/todos 201 x2 within 600ms (duplicate submit observed)"}
+  ]
+}
