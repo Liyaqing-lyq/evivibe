@@ -91,16 +91,20 @@ def evaluate_and_write(
     out_dir: str,
     cfg: Optional[Dict] = None,
     base_url: Optional[str] = None,
-) -> Tuple[EvaluationReport, str, str]:
-    """Evaluate one work and write report.json + report.md into out_dir."""
+) -> Tuple[EvaluationReport, str, str, str]:
+    """Evaluate one work and write report.json + report.md + report.html
+    into out_dir. Returns (report, json_path, md_path, html_path)."""
+    from .report_html import write_html
     report = evaluate_work(work_dir, tasks_path, cfg, base_url)
     os.makedirs(out_dir, exist_ok=True)
     json_path = os.path.join(out_dir, f"{report.work_id}.json")
     md_path = os.path.join(out_dir, f"{report.work_id}.md")
+    html_path = os.path.join(out_dir, f"{report.work_id}.html")
     report.save(json_path)
     with open(md_path, "w", encoding="utf-8") as fh:
         fh.write(render_markdown(report))
-    return report, json_path, md_path
+    write_html(report, html_path)
+    return report, json_path, md_path, html_path
 
 
 def evaluate_batch(
@@ -126,7 +130,7 @@ def evaluate_batch(
         # Skip hidden dirs and "_"-prefixed dirs (e.g. works/_template).
         if not os.path.isdir(work_dir) or name.startswith((".", "_")):
             continue
-        report, _j, _m = evaluate_and_write(work_dir, tasks_path, out_dir, cfg)
+        report, _j, _m, _h = evaluate_and_write(work_dir, tasks_path, out_dir, cfg)
         results.append(report.to_dict())
         # expert labels live in work.json -- reload them here
         from .io import load_work

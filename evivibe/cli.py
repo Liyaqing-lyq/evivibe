@@ -76,7 +76,7 @@ def main(argv: List[str] | None = None) -> int:
             cfg["reviewer_backend"] = args.reviewer
         if args.strict:
             cfg["evidence_binding"] = "strict"
-        report, jpath, mpath = evaluate_and_write(
+        report, jpath, mpath, hpath = evaluate_and_write(
             args.work, args.tasks, args.out, cfg, args.base_url)
         print(json.dumps({
             "work_id": report.work_id,
@@ -85,7 +85,9 @@ def main(argv: List[str] | None = None) -> int:
             "findings": len(report.findings),
             "report_json": jpath,
             "report_md": mpath,
+            "report_html": hpath,
         }, ensure_ascii=False, indent=2))
+        print(f"\n可视化报告: {hpath}", file=sys.stderr)
         return 0 if report.status == "accepted" else 2
 
     if args.command == "batch":
@@ -130,7 +132,7 @@ def _selftest() -> int:
     with tempfile.TemporaryDirectory() as tmp:
         cfg = config_mod.load_config()
         cfg["reviewer_backend"] = "mock"
-        report, _j, _m = evaluate_and_write(work, tasks, tmp, cfg)
+        report, _j, _m, _h = evaluate_and_write(work, tasks, tmp, cfg)
         print(f"selftest OK: work={report.work_id} "
               f"status={report.status} score={report.weighted_score:.1f} "
               f"findings={len(report.findings)} "
