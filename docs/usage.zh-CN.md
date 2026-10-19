@@ -42,6 +42,21 @@ evivibe evaluate --work data\works\demo-clipboard --tasks data\tasks --out repor
 
 ## 2. 评测你自己的作品
 
+### 2.0 最快路径：复制内置模板
+
+仓库自带 `works\_template\`，四个文件都写好了字段说明，直接复制改名即可：
+
+```powershell
+cd "C:\Users\85984\WorkBuddy\2026-10-19-17-15-08\evivibe"
+Copy-Item works\_template works\my-app -Recurse
+# 编辑 works\my-app\ 下的文件，然后：
+evivibe evaluate --work works\my-app --tasks data\tasks --out report
+```
+
+> 注意：以 `_` 或 `.` 开头的目录在 `evivibe batch` 中会被自动跳过，所以模板本身不会被误当成作品评测。
+
+模板各文件的作用与填写要点见 [works/README.md](../works/README.md)。
+
 ### 2.1 准备作品目录
 
 在任意位置新建 `works\my-app\`，包含：

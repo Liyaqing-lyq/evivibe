@@ -123,7 +123,8 @@ def evaluate_batch(
     auto_scores, expert_scores, ids = [], [], []
     for name in sorted(os.listdir(works_root)):
         work_dir = os.path.join(works_root, name)
-        if not os.path.isdir(work_dir) or name.startswith("."):
+        # Skip hidden dirs and "_"-prefixed dirs (e.g. works/_template).
+        if not os.path.isdir(work_dir) or name.startswith((".", "_")):
             continue
         report, _j, _m = evaluate_and_write(work_dir, tasks_path, out_dir, cfg)
         results.append(report.to_dict())

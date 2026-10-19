@@ -1,0 +1,24 @@
+{
+  "boot": {
+    "ok": true,
+    "log": "应用启动日志摘要，例如: server started on :5000, smoke request 200 in 212ms"
+  },
+  "tasks": [
+    {
+      "task_id": "T1-create",
+      "name": "描述这个任务做了什么",
+      "category": "core",
+      "success": true,
+      "duration_ms": 1840,
+      "failure_reason": "",
+      "steps": [
+        {"action": "goto", "target": "/", "ok": true, "elapsed_ms": 620},
+        {"action": "fill", "target": "#input-id", "value": "输入内容", "ok": true, "elapsed_ms": 90},
+        {"action": "click", "target": "button#submit", "ok": true, "elapsed_ms": 310},
+        {"action": "expect", "value": "期望在页面上看到的内容", "ok": true, "elapsed_ms": 820}
+      ]
+    }
+  ],
+  "screenshots": [],
+  "console_errors": []
+}

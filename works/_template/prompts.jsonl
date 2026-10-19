@@ -1,0 +1,5 @@
+{"turn": 1, "role": "user", "text": "第一轮你给 AI 的原始需求描述"}
+{"turn": 2, "role": "assistant", "text": "AI 的回复"}
+{"turn": 3, "role": "user", "text": "报错了：xxx（这类内容会计入报错率）"}
+{"turn": 4, "role": "user", "text": "这里能不能改成 xxx（澄清/追问会计入澄清率）"}
+{"turn": 5, "role": "assistant", "text": "AI 修改后的代码"}

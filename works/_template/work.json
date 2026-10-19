@@ -1,0 +1,21 @@
+{
+  "work_id": "my-app",
+  "title": "My Application",
+  "author": "your-name",
+  "ai_tools": ["cursor", "gpt-4o"],
+  "requirement": "用一段话描述这个作品要做什么、必须满足哪些约束（例如：数据要持久化、要能在手机上用、要处理空输入和重复提交）。评审器会据此判断功能完备性，写得越具体，评测越准。",
+  "expert_labels": {
+    "overall": 0,
+    "dimensions": {
+      "functionality": 0,
+      "ux": 0,
+      "visual": 0,
+      "reliability": 0,
+      "security": 0,
+      "maintainability": 0,
+      "innovation": 0,
+      "collaboration": 0
+    },
+    "severe_defects": []
+  }
+}
