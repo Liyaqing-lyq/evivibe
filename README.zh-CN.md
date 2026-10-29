@@ -71,6 +71,12 @@ evivibe evaluate --work data/works/demo-todo --tasks data/tasks \
 详细研究问题、假设与实验协议见 [docs/research-plan.md](docs/research-plan.md)，
 手把手操作教程见 [docs/usage.zh-CN.md](docs/usage.zh-CN.md)。
 
+## 系统架构图
+
+用浏览器打开 [docs/architecture.html](docs/architecture.html) 即可查看完整的评测流水线架构图：
+作品输入 → 确定性探针 → 证据池 → 多评审器 → 硬门槛 → 置信度聚合 → 报告输出。
+单文件、离线可用，无需起服务；机器可读的图定义见 `docs/architecture.spec.json`。
+
 ## 许可
 
 MIT。

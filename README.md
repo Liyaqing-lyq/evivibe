@@ -137,8 +137,20 @@ evivibe/
 │   ├── tasks/todo.json        # standard user tasks (core/robustness/...)
 │   └── works/                 # demo-todo (accepted) · demo-clipboard (gated)
 ├── tests/                     # unit + end-to-end, all offline
-└── docs/research-plan.md      # RQs, hypotheses, experiment protocol
+└── docs/
+    ├── research-plan.md       # RQs, hypotheses, experiment protocol
+    ├── usage.zh-CN.md         # step-by-step guide (Chinese)
+    ├── architecture.html      # interactive architecture diagram (offline)
+    └── architecture.spec.json # machine-readable architecture spec
 ```
+
+## Architecture
+
+Open [docs/architecture.html](docs/architecture.html) in a browser — a
+self-contained diagram of the full pipeline: work ingestion → deterministic
+probes → evidence pool → reviewer ensemble → hard gates → aggregation → reports.
+Single file, no server or network needed; the machine-readable diagram
+definition lives in `docs/architecture.spec.json`.
 
 ## The evaluation model
 

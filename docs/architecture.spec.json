@@ -1,0 +1,608 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "EviVibe 架构总览",
+    "subtitle": "证据绑定的 Vibe Coding 作品评测流水线",
+    "locale": "zh-CN",
+    "output": ".archify/architecture-evivibe-20261029-115400/evivibe-architecture.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/Liyaqing-lyq/evivibe.git",
+      "provider": "github",
+      "revision": "94cbcee453ed7a28a4086384dbf62e4cf2516433"
+    }
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "研究者 / 评测者",
+      "sublabel": "本地终端",
+      "icon": "person",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        112,
+        60
+      ]
+    },
+    {
+      "id": "cli",
+      "type": "frontend",
+      "label": "CLI 入口",
+      "sublabel": "evaluate / batch / ablate",
+      "icon": "frontend",
+      "pos": [
+        200,
+        60
+      ],
+      "size": [
+        138,
+        64
+      ],
+      "sources": [
+        {
+          "path": "evivibe/cli.py",
+          "line": 27,
+          "end_line": 89,
+          "label": "main 与子命令分发"
+        }
+      ]
+    },
+    {
+      "id": "workdir",
+      "type": "database",
+      "label": "作品目录",
+      "sublabel": "work.json + 源码 + 轨迹",
+      "pos": [
+        200,
+        170
+      ],
+      "size": [
+        138,
+        100
+      ],
+      "sources": [
+        {
+          "path": "evivibe/io.py",
+          "line": 26,
+          "end_line": 37,
+          "label": "读取 work.json / prompts / versions"
+        }
+      ]
+    },
+    {
+      "id": "tasks",
+      "type": "database",
+      "label": "任务规格",
+      "sublabel": "data/tasks/*.json",
+      "pos": [
+        200,
+        310
+      ],
+      "size": [
+        138,
+        56
+      ],
+      "sources": [
+        {
+          "path": "evivibe/io.py",
+          "line": 52,
+          "end_line": 61,
+          "label": "load_tasks"
+        }
+      ]
+    },
+    {
+      "id": "io",
+      "type": "backend",
+      "label": "输入解析",
+      "sublabel": "io.py · Work / Task",
+      "pos": [
+        364,
+        180
+      ],
+      "size": [
+        128,
+        84
+      ],
+      "sources": [
+        {
+          "path": "evivibe/io.py",
+          "line": 39,
+          "end_line": 49,
+          "label": "构造 Work 对象"
+        }
+      ]
+    },
+    {
+      "id": "pipeline",
+      "type": "backend",
+      "label": "流水线编排",
+      "sublabel": "pipeline.py · evaluate_work",
+      "pos": [
+        518,
+        150
+      ],
+      "size": [
+        142,
+        90
+      ],
+      "sources": [
+        {
+          "path": "evivibe/pipeline.py",
+          "line": 33,
+          "end_line": 76,
+          "label": "串接探针、评审器、门槛与聚合"
+        }
+      ]
+    },
+    {
+      "id": "code_metrics",
+      "type": "backend",
+      "label": "代码指标探针",
+      "sublabel": "复杂度 / 重复率 / 规范",
+      "pos": [
+        736,
+        40
+      ],
+      "size": [
+        150,
+        56
+      ],
+      "sources": [
+        {
+          "path": "evivibe/analyzers/code_metrics.py",
+          "line": 31,
+          "end_line": 60,
+          "label": "analyze_code"
+        }
+      ]
+    },
+    {
+      "id": "security_scan",
+      "type": "backend",
+      "label": "安全扫描探针",
+      "sublabel": "注入 / 硬编码密钥",
+      "icon": "security",
+      "pos": [
+        736,
+        108
+      ],
+      "size": [
+        150,
+        56
+      ],
+      "sources": [
+        {
+          "path": "evivibe/analyzers/security_scan.py",
+          "line": 69,
+          "end_line": 100,
+          "label": "scan_security"
+        }
+      ]
+    },
+    {
+      "id": "process_features",
+      "type": "backend",
+      "label": "过程特征探针",
+      "sublabel": "澄清率 / 报错率",
+      "pos": [
+        736,
+        176
+      ],
+      "size": [
+        150,
+        56
+      ],
+      "sources": [
+        {
+          "path": "evivibe/analyzers/process_features.py",
+          "line": 34,
+          "end_line": 74,
+          "label": "extract_process_features"
+        }
+      ]
+    },
+    {
+      "id": "runner",
+      "type": "backend",
+      "label": "标准任务执行器",
+      "sublabel": "回放 或 Playwright 真跑",
+      "pos": [
+        736,
+        244
+      ],
+      "size": [
+        150,
+        66
+      ],
+      "sources": [
+        {
+          "path": "evivibe/runners/replay.py",
+          "line": 29,
+          "end_line": 42,
+          "label": "ReplayRunner"
+        },
+        {
+          "path": "evivibe/pipeline.py",
+          "line": 79,
+          "end_line": 85,
+          "label": "按 base-url 选择执行器"
+        }
+      ]
+    },
+    {
+      "id": "evidence_pool",
+      "type": "database",
+      "label": "证据池",
+      "sublabel": "Evidence · ID + digest",
+      "pos": [
+        952,
+        142
+      ],
+      "size": [
+        150,
+        80
+      ],
+      "sources": [
+        {
+          "path": "evivibe/schema.py",
+          "line": 44,
+          "end_line": 62,
+          "label": "Evidence 与 digest 摘要"
+        },
+        {
+          "path": "evivibe/pipeline.py",
+          "line": 54,
+          "end_line": 54,
+          "label": "合并四类探针证据"
+        }
+      ]
+    },
+    {
+      "id": "reviewers",
+      "type": "backend",
+      "label": "评审器集成",
+      "sublabel": "mock 确定性 / LLM 二选一",
+      "pos": [
+        926,
+        262
+      ],
+      "size": [
+        150,
+        100
+      ],
+      "sources": [
+        {
+          "path": "evivibe/reviewers/base.py",
+          "line": 46,
+          "end_line": 56,
+          "label": "Reviewer 抽象"
+        },
+        {
+          "path": "evivibe/pipeline.py",
+          "line": 57,
+          "end_line": 65,
+          "label": "构造 ReviewContext 并调用"
+        }
+      ]
+    },
+    {
+      "id": "llm_api",
+      "type": "cloud",
+      "label": "外部 LLM API",
+      "sublabel": "OpenAI 兼容接口",
+      "pos": [
+        1106,
+        262
+      ],
+      "size": [
+        130,
+        68
+      ],
+      "sources": [
+        {
+          "path": "evivibe/reviewers/llm.py",
+          "line": 91,
+          "end_line": 125,
+          "label": "LLMClient.complete"
+        }
+      ]
+    },
+    {
+      "id": "gates",
+      "type": "security",
+      "label": "硬门槛",
+      "sublabel": "G1 启动 · G2 任务 · G3 安全",
+      "icon": "security",
+      "pos": [
+        926,
+        410
+      ],
+      "size": [
+        150,
+        84
+      ],
+      "sources": [
+        {
+          "path": "evivibe/gates.py",
+          "line": 16,
+          "end_line": 84,
+          "label": "evaluate_gates"
+        }
+      ]
+    },
+    {
+      "id": "aggregate",
+      "type": "backend",
+      "label": "证据绑定 + 加权聚合",
+      "sublabel": "aggregate.py",
+      "pos": [
+        736,
+        536
+      ],
+      "size": [
+        150,
+        84
+      ],
+      "sources": [
+        {
+          "path": "evivibe/aggregate.py",
+          "line": 31,
+          "end_line": 49,
+          "label": "bind_evidence"
+        },
+        {
+          "path": "evivibe/aggregate.py",
+          "line": 52,
+          "end_line": 69,
+          "label": "apply_evidence_policy"
+        },
+        {
+          "path": "evivibe/aggregate.py",
+          "line": 111,
+          "end_line": 157,
+          "label": "aggregate 加权总分"
+        }
+      ]
+    },
+    {
+      "id": "metrics",
+      "type": "backend",
+      "label": "统计指标",
+      "sublabel": "Spearman / Kendall / ICC",
+      "pos": [
+        320,
+        536
+      ],
+      "size": [
+        150,
+        72
+      ],
+      "sources": [
+        {
+          "path": "evivibe/metrics.py",
+          "line": 73,
+          "end_line": 107,
+          "label": "spearman / kendall_tau"
+        },
+        {
+          "path": "evivibe/metrics.py",
+          "line": 123,
+          "end_line": 158,
+          "label": "icc_2_1"
+        }
+      ]
+    },
+    {
+      "id": "reports",
+      "type": "database",
+      "label": "报告输出",
+      "sublabel": "json / md / html",
+      "pos": [
+        510,
+        536
+      ],
+      "size": [
+        150,
+        90
+      ],
+      "sources": [
+        {
+          "path": "evivibe/pipeline.py",
+          "line": 88,
+          "end_line": 107,
+          "label": "evaluate_and_write 落盘"
+        },
+        {
+          "path": "evivibe/report_html.py",
+          "line": 47,
+          "end_line": 79,
+          "label": "render_html 可视化"
+        }
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "确定性探针（不依赖 LLM）",
+      "wraps": [
+        "code_metrics",
+        "security_scan",
+        "process_features",
+        "runner"
+      ],
+      "pad": 18
+    },
+    {
+      "kind": "region",
+      "label": "证据约束评审",
+      "wraps": [
+        "evidence_pool",
+        "reviewers"
+      ],
+      "pad": 18
+    }
+  ],
+  "connections": [
+    {
+      "id": "c-user-cli",
+      "from": "user",
+      "to": "cli",
+      "label": "运行评测"
+    },
+    {
+      "id": "c-cli-pipeline",
+      "from": "cli",
+      "to": "pipeline"
+    },
+    {
+      "id": "c-workdir-io",
+      "from": "workdir",
+      "to": "io"
+    },
+    {
+      "id": "c-tasks-io",
+      "from": "tasks",
+      "to": "io"
+    },
+    {
+      "id": "c-io-pipeline",
+      "from": "io",
+      "to": "pipeline"
+    },
+    {
+      "id": "c-pipeline-code",
+      "from": "pipeline",
+      "to": "code_metrics"
+    },
+    {
+      "id": "c-pipeline-sec",
+      "from": "pipeline",
+      "to": "security_scan"
+    },
+    {
+      "id": "c-pipeline-proc",
+      "from": "pipeline",
+      "to": "process_features"
+    },
+    {
+      "id": "c-pipeline-runner",
+      "from": "pipeline",
+      "to": "runner"
+    },
+    {
+      "id": "c-code-ev",
+      "from": "code_metrics",
+      "to": "evidence_pool"
+    },
+    {
+      "id": "c-sec-ev",
+      "from": "security_scan",
+      "to": "evidence_pool"
+    },
+    {
+      "id": "c-proc-ev",
+      "from": "process_features",
+      "to": "evidence_pool"
+    },
+    {
+      "id": "c-runner-ev",
+      "from": "runner",
+      "to": "evidence_pool"
+    },
+    {
+      "id": "c-ev-reviewers",
+      "from": "evidence_pool",
+      "to": "reviewers"
+    },
+    {
+      "id": "c-pipeline-reviewers",
+      "from": "pipeline",
+      "to": "reviewers",
+      "label": "ReviewContext"
+    },
+    {
+      "id": "c-reviewers-llm",
+      "from": "reviewers",
+      "to": "llm_api",
+      "variant": "dashed"
+    },
+    {
+      "id": "c-reviewers-gates",
+      "from": "reviewers",
+      "to": "gates"
+    },
+    {
+      "id": "c-runner-gates",
+      "from": "runner",
+      "to": "gates",
+      "label": "任务结果"
+    },
+    {
+      "id": "c-gates-aggregate",
+      "from": "gates",
+      "to": "aggregate",
+      "label": "GateResult[]"
+    },
+    {
+      "id": "c-aggregate-reports",
+      "from": "aggregate",
+      "to": "reports",
+      "label": "报告"
+    },
+    {
+      "id": "c-metrics-reports",
+      "from": "metrics",
+      "to": "reports",
+      "variant": "dashed"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "证据绑定（核心创新）",
+      "items": [
+        "每条评审结论必须引用证据池中的 Evidence ID",
+        "bind_evidence 校验引用是否全部可解析",
+        "soft 模式：未绑定结论置信度 ×0.25",
+        "strict 模式：直接丢弃未绑定结论"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "硬门槛（两段式协议）",
+      "items": [
+        "G1 启动 / 构建成功",
+        "G2 核心任务通过率达阈值（默认 1.0）",
+        "G3 仅证据绑定的高危安全问题才拦截",
+        "G4 数据持久化（可选，默认关闭）",
+        "任一不过：总分直接归零，不进软评分"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "三种可替换后端",
+      "items": [
+        "评审器：mock 确定性（离线可复现）或 LLM",
+        "任务执行：runtime_trace 回放 或 Playwright 真跑",
+        "LLM 客户端：任意 OpenAI 兼容 chat/completions 端点"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "论文对齐指标",
+      "items": [
+        "batch 模式比对专家标签 overall 分",
+        "Spearman / Kendall tau / MAE / RMSE",
+        "ICC(2,1) 衡量多次评分一致性",
+        "ablate 命令关闭单一模态，量化其贡献"
+      ]
+    }
+  ]
+}
