@@ -11,8 +11,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        # ubuntu-latest migrated to Ubuntu 26.04 (Oct 2026), where Python 3.9
+        # has no prebuilt package. Pin ubuntu-24.04 to keep the declared
+        # >=3.9 support testable.
+        os: [ubuntu-24.04]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
