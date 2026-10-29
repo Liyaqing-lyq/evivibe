@@ -21,6 +21,7 @@ htmlcov/
 
 # Evaluation outputs
 evivibe-output/
+report/
 shots/
 
 # OS / editor
