@@ -41,21 +41,25 @@ def evaluate_gates(
             gates.append(GateResult("boot", False, reason, ids))
 
     # ---- G2: core task success --------------------------------------------
-    threshold = float(gcfg.get("core_task_success_threshold", 1.0))
-    core = [t for t in task_results if t.category == "core"]
-    if not core:
-        gates.append(GateResult(
-            "core_tasks", False, "no core task results were produced"))
-    else:
-        rate = sum(1 for t in core if t.success) / len(core)
-        ok = rate >= threshold
-        failed = [t.task_id for t in core if not t.success]
-        reason = "" if ok else (
-            f"core task success rate {rate:.2f} < {threshold:.2f}; "
-            f"failed: {', '.join(failed) or 'none'}")
-        gates.append(GateResult(
-            "core_tasks", ok, reason,
-            [eid for t in core for eid in t.evidence_ids]))
+    # Static-only preview (GUI import of a bare source archive) has no runtime
+    # harness at all; this flag lets it skip the runtime gates while still
+    # keeping the security gate. Full evaluation always keeps it on.
+    if gcfg.get("require_core_tasks", True):
+        threshold = float(gcfg.get("core_task_success_threshold", 1.0))
+        core = [t for t in task_results if t.category == "core"]
+        if not core:
+            gates.append(GateResult(
+                "core_tasks", False, "no core task results were produced"))
+        else:
+            rate = sum(1 for t in core if t.success) / len(core)
+            ok = rate >= threshold
+            failed = [t.task_id for t in core if not t.success]
+            reason = "" if ok else (
+                f"core task success rate {rate:.2f} < {threshold:.2f}; "
+                f"failed: {', '.join(failed) or 'none'}")
+            gates.append(GateResult(
+                "core_tasks", ok, reason,
+                [eid for t in core for eid in t.evidence_ids]))
 
     # ---- G3: critical security findings ------------------------------------
     if gcfg.get("block_critical_security", True):

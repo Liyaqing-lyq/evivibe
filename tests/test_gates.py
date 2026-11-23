@@ -33,6 +33,15 @@ def test_core_task_gate():
     assert gates["core_tasks"].passed
 
 
+def test_core_task_gate_skippable_for_static_preview():
+    """Static-only mode (bare source import) skips the runtime gates entirely."""
+    cfg = {"gates": {"require_core_tasks": False, "require_boot": False}}
+    gates = evaluate_gates([], [], [], cfg)
+    assert gates  # security gate still present
+    assert all(g.name != "core_tasks" for g in gates)
+    assert all(g.name != "boot" for g in gates)
+
+
 def test_security_gate_requires_evidence():
     cfg = {"gates": {"block_critical_security": True}}
     ev = Evidence(kind="static_scan", source="s", summary="eval() found")
