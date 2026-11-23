@@ -69,7 +69,8 @@ evivibe evaluate --work data/works/demo-todo --tasks data/tasks \
 评分机制：`Q = Σ w_d · score_d`，维度分 = 100 − Σ(严重度惩罚 × 置信度)，可选与评审器先验分按小权重融合。权重、门槛、惩罚均由 JSON 配置，全流程可复现。
 
 详细研究问题、假设与实验协议见 [docs/research-plan.md](docs/research-plan.md)，
-手把手操作教程见 [docs/usage.zh-CN.md](docs/usage.zh-CN.md)。
+手把手操作教程见 [docs/usage.zh-CN.md](docs/usage.zh-CN.md)。不想敲命令的话，
+双击仓库根目录的 `start-gui.bat` 即可使用网页评测台（`evivibe gui`）。
 
 ## 系统架构图
 

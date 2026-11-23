@@ -65,10 +65,24 @@ def main(argv: List[str] | None = None) -> int:
 
     sub.add_parser("selftest", help="run a quick offline self-check")
 
+    p_gui = sub.add_parser("gui", help="launch the local web UI (no CLI "
+                                       "typing; opens your browser)")
+    p_gui.add_argument("--port", type=int, default=8400)
+    p_gui.add_argument("--out", default=None,
+                       help="report output dir (default: evivibe-gui-output)")
+    p_gui.add_argument("--no-browser", action="store_true",
+                       help="do not auto-open the browser")
+
     args = parser.parse_args(argv)
 
     if args.command == "selftest":
         return _selftest()
+
+    if args.command == "gui":
+        from . import gui
+        gui.serve(port=args.port, out_dir=args.out,
+                  open_browser=not args.no_browser)
+        return 0
 
     if args.command == "evaluate":
         cfg = config_mod.load_config(args.config)
