@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Todo</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; }
+  h1 { font-size: 20px; }
+  #add { display: flex; gap: 8px; margin-bottom: 16px; }
+  #add input { flex: 1; padding: 8px; }
+  ul { list-style: none; padding: 0; }
+  li { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid #eee; }
+  li.done span { text-decoration: line-through; color: #999; }
+  li span { flex: 1; }
+  button { padding: 4px 8px; }
+</style>
+</head>
+<body>
+<h1>Campus Todo</h1>
+<div id="add">
+  <input id="title" placeholder="要做什么…">
+  <button onclick="add()">添加</button>
+</div>
+<ul id="list"></ul>
+<script>
+const $ = id => document.getElementById(id);
+
+async function load() {
+  const r = await fetch('/api/todos');
+  const items = await r.json();
+  $('list').innerHTML = '';
+  for (const t of items) {
+    const li = document.createElement('li');
+    if (t.done) li.className = 'done';
+    const chk = document.createElement('input');
+    chk.type = 'checkbox'; chk.checked = !!t.done;
+    chk.onchange = () => toggle(t.id, chk.checked);
+    const span = document.createElement('span');
+    span.textContent = t.title;
+    const del = document.createElement('button');
+    del.textContent = '删除';
+    del.onclick = () => remove(t.id);
+    li.append(chk, span, del);
+    $('list').append(li);
+  }
+}
+
+async function add() {
+  const title = $('title').value.trim();
+  if (!title) return;
+  await fetch('/api/todos', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ title }),
+  });
+  $('title').value = '';
+  load();
+}
+
+async function toggle(id, done) {
+  await fetch(`/api/todos/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ done }),
+  });
+  load();
+}
+
+async function remove(id) {
+  await fetch(`/api/todos/${id}`, { method: 'DELETE' });
+  load();
+}
+
+load();
+</script>
+</body>
+</html>
