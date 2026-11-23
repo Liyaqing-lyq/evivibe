@@ -29,3 +29,5 @@ shots/
 Thumbs.db
 .idea/
 .vscode/
+*.db
+todos.db
